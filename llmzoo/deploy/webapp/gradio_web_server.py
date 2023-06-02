@@ -316,27 +316,8 @@ pre {
 
 
 def build_single_model_ui():
-    notice_markdown = ("""
-    There are three models available:
-
-    * Chimera (LLM mainly for Latin and Cyrillic languages)
-
-    * Phoenix (LLM across Languages, e.g., Chinese)
-
-    * [CAMEL](http://10.20.12.38:8081/) (Chinese And Medically Enhanced Langauge models, 华佗 in Chinese)
-
-    Our code and models can also be available [here](https://github.com/FreedomIntelligence/LLMZoo). If you find it useful, consider leave us a ⭐️.
-
-    """)
-
-    learn_more_markdown = ("""
-    | <a href="https://cifar.ca/"><img width="300px" src="https://cuhk.edu.cn/sites/webmaster.prod1.dpsite04.cuhk.edu.cn/files/zh-hans_logo.png" /></a><br> The Chinese University of Hong Kong, Shenzhen |  <a href="https://mila.quebec/"><img width="250px" src="http://sribd.cn/sites/default/files/styles/crop_freeform/public/2020-12/logo2.png?itok=nI-pneIp" /></a><br> Shenzhen Research Institute of Big Data |
-    |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---:|
-    """)
 
     state = gr.State()
-    gr.HTML("""<h1 align="center">LLMZoo</h1>""")
-    notice = gr.Markdown(notice_markdown, elem_id="notice_markdown")
 
     with gr.Row(elem_id="model_selector_row"):
         model_selector = gr.Dropdown(
@@ -358,9 +339,9 @@ def build_single_model_ui():
             send_btn = gr.Button(value="Send", visible=False)
 
     with gr.Row(visible=False) as button_row:
-        upvote_btn = gr.Button(value="👍  Upvote", interactive=False)
-        downvote_btn = gr.Button(value="👎  Downvote", interactive=False)
-        flag_btn = gr.Button(value="⚠️  Flag", interactive=False)
+        # upvote_btn = gr.Button(value="👍  Upvote", interactive=False)
+        # downvote_btn = gr.Button(value="👎  Downvote", interactive=False)
+        # flag_btn = gr.Button(value="⚠️  Flag", interactive=False)
         # stop_btn = gr.Button(value="⏹️  Stop Generation", interactive=False)
         regenerate_btn = gr.Button(value="🔄  Regenerate", interactive=False)
         clear_btn = gr.Button(value="🗑️  Clear history", interactive=False)
@@ -383,25 +364,24 @@ def build_single_model_ui():
             label="Max output tokens",
         )
 
-    gr.Markdown(learn_more_markdown)
-
     # Register listeners
-    btn_list = [upvote_btn, downvote_btn, flag_btn, regenerate_btn, clear_btn]
-    upvote_btn.click(
-        upvote_last_response,
-        [state, model_selector],
-        [textbox, upvote_btn, downvote_btn, flag_btn],
-    )
-    downvote_btn.click(
-        downvote_last_response,
-        [state, model_selector],
-        [textbox, upvote_btn, downvote_btn, flag_btn],
-    )
-    flag_btn.click(
-        flag_last_response,
-        [state, model_selector],
-        [textbox, upvote_btn, downvote_btn, flag_btn],
-    )
+    # btn_list = [upvote_btn, downvote_btn, flag_btn, regenerate_btn, clear_btn]
+    btn_list = [regenerate_btn, clear_btn]
+    # upvote_btn.click(
+    #     upvote_last_response,
+    #     [state, model_selector],
+    #     [textbox, upvote_btn, downvote_btn, flag_btn],
+    # )
+    # downvote_btn.click(
+    #     downvote_last_response,
+    #     [state, model_selector],
+    #     [textbox, upvote_btn, downvote_btn, flag_btn],
+    # )
+    # flag_btn.click(
+    #     flag_last_response,
+    #     [state, model_selector],
+    #     [textbox, upvote_btn, downvote_btn, flag_btn],
+    # )
     regenerate_btn.click(regenerate, state, [state, chatbot, textbox] + btn_list).then(
         http_bot,
         [state, model_selector, temperature, max_output_tokens],
