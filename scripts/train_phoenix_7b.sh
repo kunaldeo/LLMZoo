@@ -19,7 +19,7 @@ torchrun \
   --gradient_accumulation_steps 8 \
   --save_strategy "steps" \
   --save_steps 500 \
-  --evaluation_strategy "no" \
+  --evaluation_strategy "epoch" \
   --save_total_limit 3 \
   --learning_rate 2e-5 \
   --weight_decay 0. \

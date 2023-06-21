@@ -25,6 +25,8 @@ class ModelArguments:
 @dataclass
 class DataArguments:
     data_path: str = field(default=None, metadata={"help": "Path to the training data."})
+    valid_data_path: str = field(default=None, metadata={"help": "Path to the validation data."})
+
 
 
 @dataclass

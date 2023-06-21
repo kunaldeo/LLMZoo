@@ -15,8 +15,9 @@ from llmzoo.utils import default_conversation
 def make_supervised_data_module(tokenizer: transformers.PreTrainedTokenizer, data_args) -> Dict:
     dataset_cls = InstructionDataset
     train_dataset = dataset_cls(tokenizer=tokenizer, data_path=data_args.data_path)
+    eval_dataset = dataset_cls(tokenizer=tokenizer, data_path=data_args.valid_data_path)  
     data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
-    return dict(train_dataset=train_dataset, eval_dataset=None, data_collator=data_collator)
+    return dict(train_dataset=train_dataset, eval_dataset=eval_dataset, data_collator=data_collator)
 
 
 class InstructionDataset(Dataset):
