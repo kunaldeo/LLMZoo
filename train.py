@@ -44,7 +44,8 @@ def train():
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
     model, tokenizer = build_model(model_args, training_args)
-
+    # Get rids of the flash-attention issues
+    model.config.use_cache = False
     data_module = make_supervised_data_module(tokenizer=tokenizer, data_args=data_args)
 
     trainer = Trainer(model=model, tokenizer=tokenizer, args=training_args, **data_module)
