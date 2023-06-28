@@ -25,6 +25,8 @@ class ModelArguments:
 @dataclass
 class DataArguments:
     data_path: str = field(default=None, metadata={"help": "Path to the training data."})
+    valid_data_path: str = field(default=None, metadata={"help": "Path to the validation data."})
+
 
 
 @dataclass
@@ -42,6 +44,7 @@ def train():
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
     model, tokenizer = build_model(model_args, training_args)
+    model.config.use_cache = False
 
     data_module = make_supervised_data_module(tokenizer=tokenizer, data_args=data_args)
 
